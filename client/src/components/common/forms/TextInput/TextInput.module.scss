@@ -1,0 +1,38 @@
+.textInput {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: $spacing-md;
+  width: 100%;
+  max-width: 400px;
+}
+
+.label {
+  margin-bottom: $spacing-xs;
+  cursor: pointer;
+}
+
+.labelText {
+  display: inline-block;
+  font-weight: $font-weight-medium;
+}
+
+.input {
+  width: 100%;
+  padding: $spacing-sm;
+  background-color: $bg-surface;
+  border: $border-width-thin solid $border-default;
+  border-radius: $border-radius-md;
+  transition:
+    border-color $transition-fast $transition-timing-default,
+    box-shadow $transition-fast $transition-timing-default;
+
+  &:hover {
+    border-color: $border-strong;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $border-focus;
+    box-shadow: 0 0 0 3px rgba($color-primary-500, 0.2);
+  }
+}

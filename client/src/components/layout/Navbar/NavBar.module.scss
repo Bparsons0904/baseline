@@ -1,0 +1,92 @@
+.navbar {
+  background-color: $color-primary-900;
+  color: $text-inverse;
+  padding: $spacing-md 0;
+  box-shadow: 0 2px 4px $shadow-color-light;
+}
+.navbarContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+  @include breakpoint(md) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+.navbarLogo {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  @include breakpoint(md) {
+    font-size: $font-size-2xl;
+  }
+}
+.navbarTitle {
+  color: $text-inverse;
+  text-decoration: none;
+  &:hover {
+    color: $color-gray-300;
+  }
+}
+.navbarMenu {
+  display: flex;
+  width: 100%;
+  margin-top: $spacing-md;
+  @include breakpoint(md) {
+    width: auto;
+    margin-top: 0;
+  }
+}
+.navbarItems {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  @include breakpoint(md) {
+    flex-direction: row;
+    width: auto;
+  }
+}
+.navbarItem {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  padding: $spacing-sm 0;
+  &:not(:last-child) {
+    border-bottom: $border-width-thin solid rgba($color-white, 0.1);
+  }
+  @include breakpoint(md) {
+    width: auto;
+    text-align: left;
+    margin-left: $spacing-lg;
+    &:not(:last-child) {
+      border-bottom: none;
+    }
+  }
+}
+.navbarLink {
+  color: $text-inverse;
+  padding: $spacing-sm 0;
+  position: relative;
+  transition: color $transition-fast $transition-timing-default;
+  text-decoration: none;
+  &:hover {
+    color: $color-gray-300;
+  }
+  &.active {
+    color: $color-primary-300;
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: $border-width-thin;
+      background-color: $color-primary-300;
+    }
+  }
+}

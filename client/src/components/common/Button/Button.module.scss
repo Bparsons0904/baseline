@@ -1,0 +1,93 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius-md;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast $transition-timing-default,
+    color $transition-fast $transition-timing-default,
+    border-color $transition-fast $transition-timing-default,
+    box-shadow $transition-fast $transition-timing-default;
+  border: none;
+  outline: none;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba($color-primary-500, 0.4);
+  }
+}
+
+// Button sizes
+.sm {
+  padding: $spacing-xs $spacing-sm;
+  font-size: $font-size-sm;
+}
+
+.md {
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-md;
+}
+
+.lg {
+  padding: $spacing-md $spacing-lg;
+  font-size: $font-size-lg;
+}
+
+// Button variants
+.primary {
+  background-color: $button-primary-bg;
+  color: $button-primary-text;
+
+  &:hover:not(:disabled) {
+    background-color: $button-primary-hover;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $button-primary-active;
+  }
+}
+
+.secondary {
+  background-color: $button-secondary-bg;
+  color: $button-secondary-text;
+
+  &:hover:not(:disabled) {
+    background-color: $button-secondary-hover;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $button-secondary-active;
+  }
+}
+
+.tertiary {
+  background-color: $button-tertiary-bg;
+  color: $button-tertiary-text;
+
+  &:hover:not(:disabled) {
+    background-color: $button-tertiary-hover;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $button-tertiary-active;
+  }
+}
+
+.danger {
+  background-color: $button-danger-bg;
+  color: $button-danger-text;
+
+  &:hover:not(:disabled) {
+    background-color: $button-danger-hover;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $button-danger-active;
+  }
+}

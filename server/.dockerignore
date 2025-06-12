@@ -1,0 +1,9 @@
+tmp/
+*.log
+.git
+.gitignore
+README.md
+Dockerfile*
+.dockerignore
+testdata/
+.air.toml.bak

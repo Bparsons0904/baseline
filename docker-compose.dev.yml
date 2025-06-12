@@ -1,0 +1,79 @@
+version: "3.8"
+
+services:
+  server:
+    image: billy-wu-server-dev
+    ports:
+      - "${SERVER_PORT:-8280}:8280"
+    volumes:
+      - ./server:/app
+      # - /app/main
+      - ./.env:/app/.env
+      - server_cache:/go/pkg/mod
+      - server_gocache:/.cache/go-build
+      - server_db:/app/tmp
+    environment:
+      - GO_ENV=development
+      - CGO_ENABLED=1
+      - GOCACHE=/.cache/go-build
+      - GOMODCACHE=/go/pkg/mod
+    working_dir: /app
+    networks:
+      - dev-network
+    restart: unless-stopped
+    depends_on:
+      - valkey
+
+  client:
+    image: billy-wu-client-dev
+    ports:
+      - "${CLIENT_PORT:-3010}:3010"
+    volumes:
+      - client_node_modules:/app/node_modules
+      - client_dist:/app/dist
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:${SERVER_PORT:-8280}
+      - VITE_WS_URL=ws://localhost:${SERVER_PORT:-8280}/ws
+      - VITE_ENV=local
+      - VITE_HOST=0.0.0.0
+      - VITE_PORT=3010
+    working_dir: /app
+    networks:
+      - dev-network
+    restart: unless-stopped
+    depends_on:
+      - server
+
+  valkey:
+    image: billy-wu-valkey-dev
+    ports:
+      - "${VALKEY_PORT}:6379"
+    volumes:
+      - valkey_data:/data
+      - valkey_logs:/var/log/valkey
+    environment:
+      - VALKEY_ENV=development
+    networks:
+      - dev-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
+
+volumes:
+  server_tmp:
+  server_cache:
+  server_gocache:
+  server_db:
+  client_node_modules:
+  client_dist:
+  valkey_data:
+  valkey_logs:
+
+networks:
+  dev-network:
+    driver: bridge

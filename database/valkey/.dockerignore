@@ -1,0 +1,12 @@
+# Valkey .dockerignore
+.git
+.gitignore
+README.md
+Dockerfile*
+.dockerignore
+*.log
+*.bak
+.DS_Store
+.*.swp
+.*.swo
+*~
