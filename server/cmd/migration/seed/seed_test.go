@@ -38,17 +38,17 @@ func TestSeed(t *testing.T) {
 	}{
 		{
 			name:          "seed empty database",
-			expectedUsers: 3,
+			expectedUsers: 4,
 			setupDB:       func(db *gorm.DB) {},
 		},
 		{
 			name:          "seed database with existing user",
-			expectedUsers: 3,
+			expectedUsers: 4,
 			setupDB: func(db *gorm.DB) {
 				existingUser := User{
-					FirstName: "Bob",
-					LastName:  "Parsons",
-					Login:     "deadstyle",
+					FirstName: "John",
+					LastName:  "Doe",
+					Login:     "johndoe",
 					Password:  "existing_password",
 					IsAdmin:   true,
 				}
@@ -76,7 +76,7 @@ func TestSeed(t *testing.T) {
 			err = db.Find(&users).Error
 			assert.NoError(t, err)
 
-			expectedLogins := []string{"deadstyle", "bobb", "ada"}
+			expectedLogins := []string{"johndoe", "janedoe", "ada", "grace"}
 			actualLogins := make([]string, len(users))
 			for i, user := range users {
 				actualLogins[i] = user.Login
@@ -96,26 +96,26 @@ func TestSeed_UserCreation(t *testing.T) {
 	err := Seed(db, config, log)
 	require.NoError(t, err)
 
-	t.Run("deadstyle user created correctly", func(t *testing.T) {
+	t.Run("johndoe user created correctly", func(t *testing.T) {
 		var user User
-		err := db.First(&user, "login = ?", "deadstyle").Error
+		err := db.First(&user, "login = ?", "johndoe").Error
 		require.NoError(t, err)
 
-		assert.Equal(t, "Bob", user.FirstName)
-		assert.Equal(t, "Parsons", user.LastName)
-		assert.Equal(t, "deadstyle", user.Login)
+		assert.Equal(t, "John", user.FirstName)
+		assert.Equal(t, "Doe", user.LastName)
+		assert.Equal(t, "johndoe", user.Login)
 		assert.True(t, user.IsAdmin)
 		assert.NotEqual(t, "password", user.Password) // Should be hashed
 	})
 
-	t.Run("bobb user created correctly", func(t *testing.T) {
+	t.Run("janedoe user created correctly", func(t *testing.T) {
 		var user User
-		err := db.First(&user, "login = ?", "bobb").Error
+		err := db.First(&user, "login = ?", "janedoe").Error
 		require.NoError(t, err)
 
-		assert.Equal(t, "Bob", user.FirstName)
-		assert.Equal(t, "Covell", user.LastName)
-		assert.Equal(t, "bobb", user.Login)
+		assert.Equal(t, "Jane", user.FirstName)
+		assert.Equal(t, "Doe", user.LastName)
+		assert.Equal(t, "janedoe", user.Login)
 		assert.True(t, user.IsAdmin)
 		assert.NotEqual(t, "password", user.Password) // Should be hashed
 	})
@@ -128,6 +128,18 @@ func TestSeed_UserCreation(t *testing.T) {
 		assert.Equal(t, "Ada", user.FirstName)
 		assert.Equal(t, "Lovelace", user.LastName)
 		assert.Equal(t, "ada", user.Login)
+		assert.False(t, user.IsAdmin)
+		assert.NotEqual(t, "password", user.Password) // Should be hashed
+	})
+
+	t.Run("grace user created correctly", func(t *testing.T) {
+		var user User
+		err := db.First(&user, "login = ?", "grace").Error
+		require.NoError(t, err)
+
+		assert.Equal(t, "Grace", user.FirstName)
+		assert.Equal(t, "Hopper", user.LastName)
+		assert.Equal(t, "grace", user.Login)
 		assert.False(t, user.IsAdmin)
 		assert.NotEqual(t, "password", user.Password) // Should be hashed
 	})
@@ -144,11 +156,11 @@ func TestSeed_Idempotency(t *testing.T) {
 	err = Seed(db, config, log)
 	require.NoError(t, err)
 
-	// Should still only have 3 users
+	// Should still only have 4 users
 	var userCount int64
 	err = db.Model(&User{}).Count(&userCount).Error
 	require.NoError(t, err)
-	assert.Equal(t, int64(3), userCount)
+	assert.Equal(t, int64(4), userCount)
 }
 
 func TestSeed_UserCreationError(t *testing.T) {
@@ -159,7 +171,7 @@ func TestSeed_UserCreationError(t *testing.T) {
 	existingUser := User{
 		FirstName: "Existing",
 		LastName:  "User",
-		Login:     "deadstyle",
+		Login:     "johndoe",
 		Password:  "existing_password",
 		IsAdmin:   false,
 	}
@@ -172,7 +184,7 @@ func TestSeed_UserCreationError(t *testing.T) {
 
 	// Verify the existing user wasn't overwritten
 	var user User
-	err = db.First(&user, "login = ?", "deadstyle").Error
+	err = db.First(&user, "login = ?", "johndoe").Error
 	require.NoError(t, err)
 	assert.Equal(t, "Existing", user.FirstName)
 	assert.Equal(t, "User", user.LastName)
