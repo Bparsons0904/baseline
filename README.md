@@ -73,6 +73,13 @@ docker compose -f docker-compose.dev.yml up --build
 docker compose -f docker-compose.dev.yml down
 ```
 
+## 🚀 First Steps
+
+Once the environment is up and running, you need to do the following:
+
+1. Run migrate up to initialize the database
+2. Run seed to populate the database with initial data
+
 ## 📁 Project Structure
 
 ### Server (`/server`)

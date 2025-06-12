@@ -12,21 +12,30 @@ func Seed(db *gorm.DB, config config.Config, log logger.Logger) error {
 	log = log.Function("seed")
 	users := []User{
 		{
-			FirstName: "Bob",
-			LastName:  "Parsons",
-			Login:     "deadstyle",
+			FirstName: "John",
+			LastName:  "Doe",
+			Login:     "johndoe",
 			Password:  "password",
 			IsAdmin:   true,
-		}, {
-			FirstName: "Bob",
-			LastName:  "Covell",
-			Login:     "bobb",
+		},
+		{
+			FirstName: "Jane",
+			LastName:  "Doe",
+			Login:     "janedoe",
 			Password:  "password",
 			IsAdmin:   true,
-		}, {
+		},
+		{
 			FirstName: "Ada",
 			LastName:  "Lovelace",
 			Login:     "ada",
+			Password:  "password",
+			IsAdmin:   false,
+		},
+		{
+			FirstName: "Grace",
+			LastName:  "Hopper",
+			Login:     "grace",
 			Password:  "password",
 			IsAdmin:   false,
 		},

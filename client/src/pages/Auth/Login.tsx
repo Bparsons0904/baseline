@@ -10,8 +10,8 @@ const Login: Component = () => {
     login: string;
     password: string;
   }>({
-    login: "deadstyle",
-    password: "password",
+    login: "",
+    password: "",
   });
 
   const { login } = useAuth();
